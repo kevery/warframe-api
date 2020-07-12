@@ -3,7 +3,7 @@ package com.company.project.utils;
 public class BusinessException extends RuntimeException{
 
     /**
-     * 错误信息
+     * 错误信息11111
      */
     private String msg;
 
