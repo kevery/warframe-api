@@ -2,7 +2,9 @@ package com.company.project.utils;
 
 public class BusinessException extends RuntimeException{
 
-
+    /**
+     * 错误信息
+     */
     private String msg;
 
     public BusinessException(String msg) {
