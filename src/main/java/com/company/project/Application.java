@@ -8,7 +8,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.net.InetAddress;
 
@@ -16,7 +15,7 @@ import java.net.InetAddress;
 @MapperScan("com.company.project.dao")
 public class Application {
 
-    private static Logger logger= LoggerFactory.getLogger(Application.class);
+    private static final Logger logger= LoggerFactory.getLogger(Application.class);
 
     public static void main(String[] args) throws Exception {
 
