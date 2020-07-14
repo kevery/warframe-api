@@ -1,24 +1,13 @@
 package com.company.project.configurer;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.Arrays;
-import java.util.List;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
-
+import com.company.project.core.R;
 import com.company.project.core.Result;
 import com.company.project.core.ResultCode;
-import com.company.project.core.ResultGenerator;
 import com.company.project.core.ServiceException;
-import com.company.project.utils.BusinessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -32,6 +21,14 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.config.annotation.*;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Spring MVC 配置
@@ -111,7 +108,7 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Result handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        return ResultGenerator.genFailResult(e.getBindingResult().getFieldError().getDefaultMessage());
+        return R.fail(e.getBindingResult().getFieldError().getDefaultMessage());
     }
 
     /**

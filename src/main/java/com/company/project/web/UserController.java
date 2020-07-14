@@ -1,27 +1,23 @@
 package com.company.project.web;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.company.project.core.R;
 import com.company.project.core.Result;
-import com.company.project.core.ResultGenerator;
 import com.company.project.core.ServiceException;
-import com.company.project.utils.BusinessException;
+import com.company.project.model.User;
+import com.company.project.service.IUserService;
 import com.company.project.utils.JwtUtils;
 import com.company.project.utils.MD5Utils;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
-import org.springframework.web.bind.annotation.*;
-import com.company.project.service.IUserService;
-import com.company.project.model.User;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -51,12 +47,12 @@ public class UserController {
             throw new ServiceException("45454545");
         }
         if (!MD5Utils.Encrypt(user.getPassword(),true).equals(userO.getPassword())) {
-            return ResultGenerator.genFailResult("密码错误");
+            return R.fail("密码错误");
         }
         String token = JwtUtils.geneJsonWebToken(user);
         user.setToken(token);
         user.setPassword("");
-        return ResultGenerator.genSuccessResult(user);
+        return R.success(user);
     }
 
     @ApiOperation("注册")
@@ -66,27 +62,27 @@ public class UserController {
         queryWrapper.eq("username", user.getUsername());
         User userO = userService.getOne(queryWrapper);
         if (userO != null) {
-            return ResultGenerator.genFailResult("账号已存在");
+            return R.fail("账号已存在");
         }
         user.setPassword(MD5Utils.Encrypt(user.getPassword(),true));
         userService.save(user);
-        return ResultGenerator.genSuccessResult();
+        return R.success();
     }
 
     @ApiOperation(value = "删除")
-    @PostMapping("delete/{id}")
+    @PostMapping("/delete/{id}")
     public Result delete(@PathVariable("id") Long id){
         userService.removeById(id);
-        return ResultGenerator.genSuccessResult();
+        return R.success();
     }
 
     @ApiOperation(value = "更新")
-    @PostMapping("update")
+    @PostMapping("/update")
     public Result update(@RequestBody User user){
         //密码不更新
         user.setPassword(null);
         userService.updateById(user);
-        return ResultGenerator.genSuccessResult();
+        return R.success();
     }
 
     @ApiOperation(value = "查询分页数据")
@@ -94,18 +90,23 @@ public class UserController {
         @ApiImplicitParam(name = "currentPage", value = "页码"),
         @ApiImplicitParam(name = "pageCount", value = "每页条数")
     })
-    @GetMapping("listByPage")
+    @GetMapping("/listByPage")
     public Result findListByPage(@RequestParam(defaultValue = "1") Integer currentPage,
                                    @RequestParam(defaultValue = "10") Integer pageCount){
         Page page = new Page(currentPage, pageCount);
         IPage<User> iPage = userService.page(page);
-        return ResultGenerator.genSuccessResult(iPage);
+        return R.success(iPage);
     }
 
     @ApiOperation(value = "id查询")
-    @GetMapping("getById/{id}")
+    @GetMapping("/getById/{id}")
     public Result findById(@PathVariable Long id){
-        return ResultGenerator.genSuccessResult(userService.getById(id));
+        return R.success(userService.getById(id));
     }
 
+    @ApiOperation(value = "测试接口")
+    @GetMapping("/test")
+    public Result<String> test(){
+        return R.success("123");
+    }
 }

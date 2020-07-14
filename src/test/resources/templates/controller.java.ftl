@@ -2,7 +2,7 @@ package ${package.Controller};
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.company.project.core.Result;
-import com.company.project.core.ResultGenerator;
+import com.company.project.core.R;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import org.springframework.web.bind.annotation.*;

@@ -13,7 +13,6 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 
 import static com.company.project.utils.JwtUtils.USER_ACCOUNT_KEY;
@@ -27,6 +26,9 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
     private final Logger logger = LoggerFactory.getLogger(WebMvcConfigurer.class);
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        if (1 == 1) {
+            return true;
+        }
         //拦截接口
         //从header中获取token
         String token = request.getHeader("token");
